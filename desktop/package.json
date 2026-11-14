@@ -9,7 +9,8 @@
   "main": "main.js",
   "scripts": {
     "prepare-site": "node scripts/prepare-site.js",
-    "start": "npm run prepare-site && electron .",
+    "icon": "electron scripts/make-icon.js",
+    "start": "npm run prepare-site && npm run icon && electron .",
     "dist": "npm run prepare-site && electron-builder --win"
   },
   "devDependencies": {

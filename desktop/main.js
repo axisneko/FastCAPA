@@ -7,13 +7,14 @@
  */
 "use strict";
 
-const { app, BrowserWindow, shell } = require("electron");
+const { app, BrowserWindow, Menu, shell } = require("electron");
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
 const SITE_DIR = path.join(__dirname, "site");
 const START_PAGE = "index.html";
+const WINDOW_ICON = path.join(__dirname, "build", "icon.png");
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -80,6 +81,8 @@ function createWindow(origin) {
     minHeight: 640,
     title: "FastCAPA",
     backgroundColor: "#ffffff",
+    // Иконка окна в режиме разработки; в собранном .exe берётся из файла приложения
+    ...(fs.existsSync(WINDOW_ICON) ? { icon: WINDOW_ICON } : {}),
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
@@ -112,6 +115,8 @@ function createWindow(origin) {
 }
 
 app.whenReady().then(async () => {
+  // Убираем системное меню (File, Edit, Window и т. д.): интерфейс приложения самодостаточен
+  Menu.setApplicationMenu(null);
   siteServer = await startSiteServer();
   const origin = "http://127.0.0.1:" + siteServer.address().port;
   createWindow(origin);
