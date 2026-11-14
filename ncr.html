@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastCAPA — Регистрация несоответствия (NCR)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- AppBar -->
+  <header class="appbar">
+    <div class="appbar__inner">
+      <div class="appbar__brand">
+        <img class="appbar__img" src="img/logo.jpeg" alt="FastCAPA" width="44" height="44" />
+        <div class="appbar__logo">Fast<span>CAPA</span></div>
+      </div>
+      <h1 class="appbar__title">Регистрация несоответствия (NCR)</h1>
+      <div class="appbar__meta">
+        <a href="monitor.html" class="appbar__link">📋 Монитор несоответствий</a>
+        <span id="net-badge" class="net-badge">…</span>
+        <span id="ncr-counter" class="appbar__counter"></span>
+      </div>
+    </div>
+    <p class="appbar__hint">ID инцидента (NCR-2026-XXXX) генерируется после сохранения</p>
+  </header>
+
+  <main class="page">
+    <form id="ncr-form" novalidate>
+
+      <!-- Блок 1: Локация (каскадный выбор) -->
+      <section class="block">
+        <h2 class="block__title">1 · Локация</h2>
+        <p class="block__hint">Выбор сверху-вниз: следующий уровень подгружается после выбора предыдущего</p>
+
+        <div class="field">
+          <label for="loc-l1">L1 · Регион / Холдинг <span class="req">*</span></label>
+          <select id="loc-l1" class="input input--big"><option value="">— выберите —</option></select>
+        </div>
+        <div class="field">
+          <label for="loc-l2">L2 · Площадка / Завод <span class="req">*</span></label>
+          <select id="loc-l2" class="input input--big" disabled><option value="">— сначала выберите L1 —</option></select>
+        </div>
+        <div class="field">
+          <label for="loc-l3">L3 · Департамент / Цех <span class="req">*</span></label>
+          <select id="loc-l3" class="input input--big" disabled><option value="">— сначала выберите L2 —</option></select>
+        </div>
+        <div class="field">
+          <label for="loc-l4">L4 · Объект / Рабочее место <span class="req">*</span></label>
+          <select id="loc-l4" class="input input--big" disabled><option value="">— сначала выберите L3 —</option></select>
+          <p id="loc-l4-error" class="field-error" hidden>⚠ Нельзя сохранить без L4 (конкретный станок/место)</p>
+        </div>
+      </section>
+
+      <!-- Блок 2: Суть проблемы (ИИ-ядро) -->
+      <section class="block">
+        <h2 class="block__title">2 · Суть проблемы</h2>
+
+        <div class="field">
+          <label for="description">Описание</label>
+          <textarea id="description" class="input input--big" rows="4"
+            placeholder="Опишите, что не так. Например: Скол краски на двери…"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Голос · зажмите кнопку и говорите, отпустите — стоп</label>
+          <button type="button" id="voice-btn" class="fab" aria-label="Записать голосовое описание">
+            <span class="fab__icon">🎙</span>
+          </button>
+          <p id="voice-status" class="voice-status" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="photos">Фото / видео · до 5 файлов, сжатие на лету</label>
+          <input type="file" id="photos" class="input input--file" accept="image/*,video/*" multiple hidden />
+          <!-- Камера телефона: на Android сразу открывает камеру -->
+          <input type="file" id="photos-camera" class="input input--file" accept="image/*" capture="environment" hidden />
+          <div class="photos-buttons">
+            <button type="button" id="btn-photos" class="btn btn--ghost btn--photos">📷 Выбрать файлы</button>
+            <button type="button" id="btn-camera" class="btn btn--primary btn--photos">📸 Сделать фото</button>
+          </div>
+          <div id="photo-previews" class="previews"></div>
+        </div>
+      </section>
+
+      <!-- Блок 3: Категоризация -->
+      <section class="block">
+        <h2 class="block__title">3 · Категоризация</h2>
+
+        <div class="field">
+          <label for="category">Тип несоответствия <span class="req">*</span></label>
+          <select id="category" class="input input--big"><option value="">— выберите —</option></select>
+        </div>
+
+        <div class="field">
+          <label for="process-l1">Процесс (L1)</label>
+          <select id="process-l1" class="input input--big"><option value="">— выберите —</option></select>
+        </div>
+        <div class="field">
+          <label for="process-l2">Подпроцесс (L2)</label>
+          <select id="process-l2" class="input input--big" disabled><option value="">— сначала выберите процесс —</option></select>
+        </div>
+
+        <div class="field">
+          <label>Приоритет <span class="req">*</span></label>
+          <div id="severity-group" class="severity-group"></div>
+        </div>
+      </section>
+
+      <!-- Блок 4: Действие -->
+      <section class="block block--action">
+        <p id="form-summary" class="form-summary"></p>
+        <button type="submit" id="submit-btn" class="submit-btn" disabled>✅ Зарегистрировать NCR</button>
+        <p class="block__hint" style="margin-top:10px; text-align:center">После регистрации несоответствию присваивается статус «Новый». Взять в работу или назначить ответственного можно в карточке NCR (через Монитор).</p>
+      </section>
+    </form>
+
+    <!-- Сохранённые NCR -->
+    <section class="block">
+      <h2 class="block__title">Зарегистрированные NCR <span id="saved-count" class="count-badge"></span></h2>
+      <div id="saved-list" class="saved-list"></div>
+      <p id="saved-empty" class="empty">Пока пусто. Заполните форму — инцидент сохранится на устройстве.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

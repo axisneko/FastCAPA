@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastCAPA — Вход</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="auth-page">
+    <!-- Логотип -->
+    <div class="hero">
+      <img class="hero__img" src="img/logo.jpeg" alt="FastCAPA" width="160" height="160" />
+      <h1 class="hero__title">Fast<span>CAPA</span></h1>
+      <p class="hero__subtitle">Система управления несоответствиями и CAPA</p>
+    </div>
+
+    <!-- Блок входа / регистрации -->
+    <section class="auth-card">
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab tab--active" id="tab-login" role="tab" aria-selected="true">Вход</button>
+        <button type="button" class="tab" id="tab-register" role="tab" aria-selected="false">Регистрация</button>
+      </div>
+
+      <!-- Вкладка ВХОД --> 
+      <form id="login-form" class="pane" novalidate>
+        <div class="field">
+          <label for="login">Логин</label>
+          <input type="text" id="login" class="input" autocomplete="username" placeholder="Логин" />
+        </div>
+        <div class="field">
+          <label for="password">Пароль</label>
+          <input type="password" id="password" class="input" autocomplete="current-password" placeholder="Пароль" />
+        </div>
+        <p id="login-error" class="form-error" hidden>Неверный логин или пароль</p>
+        <button type="submit" class="btn btn--primary btn--block">Войти</button>
+      </form>
+
+      <!-- Вкладка РЕГИСТРАЦИЯ -->
+      <form id="register-form" class="pane" hidden novalidate>
+        <div class="field">
+          <label for="reg-last">Фамилия <span class="req">*</span></label>
+          <input type="text" id="reg-last" class="input" placeholder="Иванов" />
+        </div>
+        <div class="field">
+          <label for="reg-first">Имя <span class="req">*</span></label>
+          <input type="text" id="reg-first" class="input" placeholder="Иван" />
+        </div>
+        <div class="field">
+          <label for="reg-middle">Отчество</label>
+          <input type="text" id="reg-middle" class="input" placeholder="Иванович" />
+        </div>
+        <div class="field">
+          <label for="reg-dept">Подразделение / Цех <span class="req">*</span></label>
+          <input type="text" id="reg-dept" class="input" placeholder="Литейный цех" />
+        </div>
+        <div class="field">
+          <label for="reg-position">Должность <span class="req">*</span></label>
+          <input type="text" id="reg-position" class="input" placeholder="Оператор" />
+        </div>
+        <div class="field">
+          <label for="reg-login">Логин <span class="req">*</span></label>
+          <input type="text" id="reg-login" class="input" placeholder="i.ivanov" />
+        </div>
+        <div class="field">
+          <label for="reg-pass1">Пароль <span class="req">*</span></label>
+          <input type="password" id="reg-pass1" class="input" placeholder="Минимум 4 символа" />
+        </div>
+        <div class="field">
+          <label for="reg-pass2">Повторите пароль <span class="req">*</span></label>
+          <input type="password" id="reg-pass2" class="input" placeholder="Ещё раз" />
+        </div>
+        <p id="register-error" class="form-error" hidden></p>
+        <button type="submit" class="btn btn--primary btn--block">Зарегистрироваться</button>
+      </form>
+
+      <!-- Пост-вход: кнопка перехода к NCR -->
+      <div id="logged-in" class="pane" hidden>
+        <p class="logged-as">Вы вошли как <b id="logged-name">admin</b></p>
+        <button type="button" id="go-ncr" class="btn btn--primary btn--block btn--plus">
+          <span class="btn__plus">+</span> Зарегистрировать новое несоответствие
+        </button>
+        <button type="button" id="logout" class="btn btn--ghost btn--block">Выйти</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="login.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastCAPA — Карточка NCR</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- AppBar -->
+  <header class="appbar">
+    <div class="appbar__inner">
+      <div class="appbar__brand">
+        <img class="appbar__img" src="img/logo.jpeg" alt="FastCAPA" width="44" height="44" />
+        <div class="appbar__logo">Fast<span>CAPA</span></div>
+      </div>
+      <h1 class="appbar__title">Карточка несоответствия</h1>
+      <div class="appbar__meta">
+        <span class="notif-wrap" id="notif-wrap"></span>
+        <a href="monitor.html" class="appbar__link">← К монитору</a>
+        <a href="ncr.html" class="appbar__link">+ Новое NCR</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page" id="ncr-view-root">
+    <p class="empty">Загрузка…</p>
+  </main>
+
+  <!-- Полноэкранный просмотр (lightbox) -->
+  <div id="lightbox" class="lightbox" hidden>
+    <button type="button" class="lightbox__close" aria-label="Закрыть">✕</button>
+    <button type="button" class="lightbox__nav lightbox__nav--prev" aria-label="Предыдущее">‹</button>
+    <div class="lightbox__content">
+      <img id="lightbox-img" src="" alt="Вложение" />
+      <video id="lightbox-video" controls hidden></video>
+      <p id="lightbox-caption" class="lightbox__caption"></p>
+    </div>
+    <button type="button" class="lightbox__nav lightbox__nav--next" aria-label="Следующее">›</button>
+  </div>
+
+  <script src="store.js"></script>
+  <script src="notifications.js"></script>
+  <script src="ncr-view.js"></script>
+</body>
+</html>

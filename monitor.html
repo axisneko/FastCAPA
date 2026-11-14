@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastCAPA — Монитор несоответствий</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- AppBar -->
+  <header class="appbar">
+    <div class="appbar__inner">
+      <div class="appbar__brand">
+        <img class="appbar__img" src="img/logo.jpeg" alt="FastCAPA" width="44" height="44" />
+        <div class="appbar__logo">Fast<span>CAPA</span></div>
+      </div>
+      <h1 class="appbar__title">Монитор несоответствий</h1>
+      <div class="appbar__meta">
+        <span class="notif-wrap" id="notif-wrap"></span>
+        <a href="capa-monitor.html" class="appbar__link">📊 Монитор CAPA</a>
+        <a href="ncr.html" class="appbar__link">+ Новое NCR</a>
+        <span id="monitor-counter" class="appbar__counter"></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="page page--wide">
+    <!-- Диаграммы: приоритеты и статусы -->
+    <section class="charts-grid">
+      <div class="block chart-card">
+        <h2 class="block__title">Приоритеты инцидентов</h2>
+        <div class="chart-card__body">
+          <canvas id="chart-severity" width="220" height="220"></canvas>
+          <ul id="chart-severity-legend" class="chart-legend"></ul>
+        </div>
+      </div>
+      <div class="block chart-card">
+        <h2 class="block__title">Статусы инцидентов</h2>
+        <div class="chart-card__body">
+          <canvas id="chart-status" width="220" height="220"></canvas>
+          <ul id="chart-status-legend" class="chart-legend"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Панель фильтров -->
+    <section class="block block--filters">
+      <div class="filters">
+        <div class="filters__search">
+          <input type="search" id="filter-search" class="input" placeholder="🔍 Поиск: ID, локация, описание, категория…" />
+        </div>
+        <div class="filters__period">
+          <span class="filters__period-label">Выбрать период:</span>
+          <span id="filter-daterange"></span>
+        </div>
+        <div class="filters__sev">
+          <button type="button" class="filter-chip filter-chip--active" data-sev="">Все приоритеты</button>
+          <button type="button" class="filter-chip" data-sev="S-1">S-1 Критический</button>
+          <button type="button" class="filter-chip" data-sev="S-2">S-2 Высокий</button>
+          <button type="button" class="filter-chip" data-sev="S-3">S-3 Средний</button>
+          <button type="button" class="filter-chip" data-sev="S-4">S-4 Низкий</button>
+        </div>
+        <div class="filters__sev">
+          <button type="button" class="filter-chip filter-chip--active" data-status="">Все статусы</button>
+          <button type="button" class="filter-chip" data-status="new">Новые</button>
+          <button type="button" class="filter-chip" data-status="in_progress">В работе</button>
+          <button type="button" class="filter-chip" data-status="pending_verification">На проверке</button>
+          <button type="button" class="filter-chip" data-status="closed">Закрытые</button>
+          <button type="button" class="filter-chip" data-status="rejected">Отклонённые</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Таблица NCR -->
+    <section class="block">
+      <div class="table-wrap">
+        <table class="ncr-table" id="ncr-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Дата</th>
+              <th>Локация</th>
+              <th>Категория</th>
+              <th>Приоритет</th>
+              <th>Описание</th>
+              <th>Файлы</th>
+              <th>Статус</th>
+              <th>CAPA</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="ncr-tbody"></tbody>
+        </table>
+        <p id="table-empty" class="empty" hidden>Нет несоответствий. Зарегистрируйте первое NCR на <a href="ncr.html">странице регистрации</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="store.js"></script>
+  <script src="daterange.js"></script>
+  <script src="notifications.js"></script>
+  <script src="monitor.js"></script>
+</body>
+</html>

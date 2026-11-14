@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastCAPA — Карточка CAPA</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- AppBar -->
+  <header class="appbar">
+    <div class="appbar__inner">
+      <div class="appbar__brand">
+        <img class="appbar__img" src="img/logo.jpeg" alt="FastCAPA" width="44" height="44" />
+        <div class="appbar__logo">Fast<span>CAPA</span></div>
+      </div>
+      <h1 class="appbar__title">План корректирующих действий (CAPA)</h1>
+      <div class="appbar__meta">
+        <span class="notif-wrap" id="notif-wrap"></span>
+        <a href="monitor.html" class="appbar__link">← К монитору NCR</a>
+        <a href="capa-monitor.html" class="appbar__link">Монитор CAPA</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="page" id="capa-root">
+    <p class="empty">Загрузка…</p>
+  </main>
+
+  <!-- Полноэкранный просмотр вложений (lightbox) -->
+  <div id="lightbox" class="lightbox" hidden>
+    <button type="button" class="lightbox__close" aria-label="Закрыть">✕</button>
+    <button type="button" class="lightbox__nav lightbox__nav--prev" aria-label="Предыдущее">‹</button>
+    <div class="lightbox__content">
+      <img id="lightbox-img" src="" alt="Вложение" />
+      <video id="lightbox-video" controls hidden></video>
+      <p id="lightbox-caption" class="lightbox__caption"></p>
+    </div>
+    <button type="button" class="lightbox__nav lightbox__nav--next" aria-label="Следующее">›</button>
+  </div>
+
+  <!-- Модальное окно: добавление корректирующего действия -->
+  <div id="action-modal" class="modal" hidden>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="modal-act-title">
+      <h2 class="modal__title" id="modal-act-title">Новое действие</h2>
+      <p class="modal__hint">Заполните поля — действие появится в плане с ответственным и сроком.</p>
+
+      <div class="field">
+        <label for="modal-act-text">Действие <span class="req">*</span></label>
+        <textarea id="modal-act-text" class="input input--big" rows="3"
+          placeholder="Например: внедрить чек-лист настройки сопла на смене…"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="modal-act-assignee">Ответственный <span class="req">*</span></label>
+        <select id="modal-act-assignee" class="input input--big">
+          <option value="">— выберите сотрудника —</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="modal-act-due">Срок <span class="req">*</span></label>
+        <input type="date" id="modal-act-due" class="input input--big" />
+      </div>
+
+      <p id="modal-act-error" class="field-error" hidden></p>
+
+      <div class="workflow-actions">
+        <button type="button" id="modal-act-confirm" class="btn btn--primary btn--workflow">✔ Добавить в план</button>
+        <button type="button" id="modal-act-cancel" class="btn btn--ghost btn--workflow">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="store.js"></script>
+  <script src="notifications.js"></script>
+  <script src="capa.js"></script>
+</body>
+</html>

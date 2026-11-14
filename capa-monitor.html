@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastCAPA — Монитор CAPA</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- AppBar -->
+  <header class="appbar">
+    <div class="appbar__inner">
+      <div class="appbar__brand">
+        <img class="appbar__img" src="img/logo.jpeg" alt="FastCAPA" width="44" height="44" />
+        <div class="appbar__logo">Fast<span>CAPA</span></div>
+      </div>
+      <h1 class="appbar__title">Монитор CAPA</h1>
+      <div class="appbar__meta">
+        <span class="notif-wrap" id="notif-wrap"></span>
+        <a href="monitor.html" class="appbar__link">Монитор NCR</a>
+        <span id="capa-monitor-counter" class="appbar__counter"></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="page page--wide">
+    <!-- Диаграммы: типы корневых причин и статусы -->
+    <section class="charts-grid">
+      <div class="block chart-card">
+        <h2 class="block__title">Корневые причины (5M)</h2>
+        <div class="chart-card__body">
+          <canvas id="capa-chart-rootcause" width="220" height="220"></canvas>
+          <ul id="capa-chart-rootcause-legend" class="chart-legend"></ul>
+        </div>
+      </div>
+      <div class="block chart-card">
+        <h2 class="block__title">Статусы CAPA</h2>
+        <div class="chart-card__body">
+          <canvas id="capa-chart-status" width="220" height="220"></canvas>
+          <ul id="capa-chart-status-legend" class="chart-legend"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Панель фильтров -->
+    <section class="block block--filters">
+      <div class="filters">
+        <div class="filters__search">
+          <input type="search" id="capa-filter-search" class="input" placeholder="🔍 Поиск: ID, NCR, локация, причина, действие…" />
+        </div>
+        <div class="filters__period">
+          <span class="filters__period-label">Период создания:</span>
+          <span id="capa-filter-daterange"></span>
+        </div>
+        <div class="filters__sev">
+          <button type="button" class="filter-chip filter-chip--active" data-rc="">Все причины (5M)</button>
+          <button type="button" class="filter-chip" data-rc="method">Метод</button>
+          <button type="button" class="filter-chip" data-rc="machine">Машина</button>
+          <button type="button" class="filter-chip" data-rc="material">Материал</button>
+          <button type="button" class="filter-chip" data-rc="man">Человек</button>
+          <button type="button" class="filter-chip" data-rc="environment">Среда</button>
+        </div>
+        <div class="filters__sev">
+          <button type="button" class="filter-chip filter-chip--active" data-status="">Все статусы</button>
+          <button type="button" class="filter-chip" data-status="draft">Черновики</button>
+          <button type="button" class="filter-chip" data-status="in_progress">На исполнении</button>
+          <button type="button" class="filter-chip" data-status="observation">Наблюдение</button>
+          <button type="button" class="filter-chip" data-status="closed">Закрытые</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Таблица CAPA -->
+    <section class="block">
+      <div class="table-wrap">
+        <table class="ncr-table" id="capa-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Создан</th>
+              <th>NCR</th>
+              <th>Локация</th>
+              <th>Корневая причина (5M)</th>
+              <th>Действий</th>
+              <th>Описание</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody id="capa-tbody"></tbody>
+        </table>
+        <p id="capa-table-empty" class="empty" hidden>Нет CAPA. Откройте карточку NCR в <a href="monitor.html">мониторе несоответствий</a> и нажмите «+ Создать план CAPA».</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="store.js"></script>
+  <script src="daterange.js"></script>
+  <script src="notifications.js"></script>
+  <script src="capa-monitor.js"></script>
+</body>
+</html>
