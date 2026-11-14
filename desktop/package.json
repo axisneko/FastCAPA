@@ -1,0 +1,55 @@
+{
+  "name": "fastcapa-desktop",
+  "productName": "FastCAPA",
+  "version": "1.0.0",
+  "description": "FastCAPA — настольное приложение для Windows: NCR и CAPA",
+  "author": "FastCAPA",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "prepare-site": "node scripts/prepare-site.js",
+    "start": "npm run prepare-site && electron .",
+    "dist": "npm run prepare-site && electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "dev.fastcapa.desktop",
+    "productName": "FastCAPA",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "package.json",
+      "site/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "FastCAPA"
+    },
+    "portable": {
+      "artifactName": "FastCAPA-${version}-portable.exe"
+    }
+  }
+}
